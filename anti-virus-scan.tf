@@ -143,6 +143,9 @@ resource "aws_s3_bucket_notification" "main_scan" {
     lambda_function_arn = aws_lambda_function.main_scan.arn
     events              = ["s3:ObjectCreated:*"]
   }
+
+  eventbridge = var.enable_eventbridge
+
 }
 
 #
