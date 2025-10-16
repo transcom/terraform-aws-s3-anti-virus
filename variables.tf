@@ -124,3 +124,9 @@ variable "cloudwatch_kms_arn" {
   type        = string
   default     = ""
 }
+
+variable "enable_eventbridge" {
+  description = "Turns on eventbridge notification settings on s3 bucket."
+  type        = bool
+  default     = true
+}
