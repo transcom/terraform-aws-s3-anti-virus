@@ -129,10 +129,10 @@ resource "aws_iam_role_policy" "main_scan" {
 # S3 Event
 #
 
-/* data "aws_s3_bucket" "main_scan" {
+data "aws_s3_bucket" "main_scan" {
   count  = length(var.av_scan_buckets)
   bucket = var.av_scan_buckets[count.index]
-} */
+}
 
 /* resource "aws_s3_bucket_notification" "main_scan" {
   count  = length(var.av_scan_buckets)
