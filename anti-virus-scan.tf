@@ -129,12 +129,12 @@ resource "aws_iam_role_policy" "main_scan" {
 # S3 Event
 #
 
-data "aws_s3_bucket" "main_scan" {
+/* data "aws_s3_bucket" "main_scan" {
   count  = length(var.av_scan_buckets)
   bucket = var.av_scan_buckets[count.index]
-}
+} */
 
-resource "aws_s3_bucket_notification" "main_scan" {
+/* resource "aws_s3_bucket_notification" "main_scan" {
   count  = length(var.av_scan_buckets)
   bucket = element(data.aws_s3_bucket.main_scan.*.id, count.index)
 
@@ -147,7 +147,7 @@ resource "aws_s3_bucket_notification" "main_scan" {
   eventbridge = var.enable_eventbridge
 
 }
-
+ */
 #
 # CloudWatch Logs
 #
@@ -166,7 +166,7 @@ resource "aws_cloudwatch_log_group" "main_scan" {
   )
 }
 
-#
+/* #
 # Lambda Function
 #
 
@@ -204,8 +204,8 @@ resource "aws_lambda_function" "main_scan" {
     var.tags
   )
 }
-
-resource "aws_lambda_permission" "main_scan" {
+ */
+/* resource "aws_lambda_permission" "main_scan" {
   count = length(var.av_scan_buckets)
 
   action        = "lambda:InvokeFunction"
@@ -218,3 +218,4 @@ resource "aws_lambda_permission" "main_scan" {
 
   statement_id = replace("${var.name_scan}-${element(data.aws_s3_bucket.main_scan.*.id, count.index)}", ".", "-")
 }
+ */
