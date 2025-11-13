@@ -85,7 +85,7 @@ resource "aws_iam_role_policy" "main_update" {
 # CloudWatch Scheduled Event
 #
 
-resource "aws_cloudwatch_event_rule" "main_update" {
+/* resource "aws_cloudwatch_event_rule" "main_update" {
   name                = var.name_update
   description         = "scheduled trigger for ${var.name_update}"
   schedule_expression = "rate(${var.av_update_minutes} minutes)"
@@ -95,7 +95,7 @@ resource "aws_cloudwatch_event_rule" "main_update" {
 resource "aws_cloudwatch_event_target" "main_update" {
   rule = aws_cloudwatch_event_rule.main_update.name
   arn  = aws_lambda_function.main_update.arn
-}
+} */
 
 #
 # CloudWatch Logs
@@ -119,7 +119,7 @@ resource "aws_cloudwatch_log_group" "main_update" {
 # Lambda Function
 #
 
-resource "aws_lambda_function" "main_update" {
+/* resource "aws_lambda_function" "main_update" {
   depends_on = [aws_cloudwatch_log_group.main_update]
 
   description = "Updates clamav definitions stored in s3."
@@ -158,3 +158,4 @@ resource "aws_lambda_permission" "main_update" {
   principal  = "events.amazonaws.com"
   source_arn = aws_cloudwatch_event_rule.main_update.arn
 }
+ */

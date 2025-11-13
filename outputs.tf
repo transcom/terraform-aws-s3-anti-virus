@@ -21,7 +21,7 @@ output "scan_lambda_function_iam_role_name" {
   value       = aws_iam_role.main_scan.name
 }
 
-output "scan_lambda_function_arn" {
+/* output "scan_lambda_function_arn" {
   description = "ARN for the Anti-Virus Scanning lambda function."
   value       = aws_lambda_function.main_scan.arn
 }
@@ -29,12 +29,12 @@ output "scan_lambda_function_arn" {
 output "scan_lambda_function_name" {
   description = "The Anti-Virus Scanning lambda function name."
   value       = var.name_scan
-}
+} */
 
-output "scan_lambda_function_version" {
+/* output "scan_lambda_function_version" {
   description = "Current version of the Anti-Virus Scanning lambda function."
   value       = aws_lambda_function.main_scan.version
-}
+} */
 
 #
 # Lambda Function: Anti-Virus Definitions `var.name_update`
@@ -59,17 +59,18 @@ output "update_lambda_function_iam_role_name" {
   value       = aws_iam_role.main_update.name
 }
 
-output "update_lambda_function_arn" {
+/* output "update_lambda_function_arn" {
   description = "ARN for the Anti-Virus Definitions lambda function."
   value       = aws_lambda_function.main_update.arn
-}
+} */
 
-output "update_lambda_function_name" {
+/* output "update_lambda_function_name" {
   description = "The Anti-Virus Definitions lambda function name."
   value       = var.name_update
 }
-
-output "update_lambda_function_version" {
+ */
+/* output "update_lambda_function_version" {
   description = "Current version of the Anti-Virus Definitions lambda function."
   value       = aws_lambda_function.main_update.version
 }
+ */
