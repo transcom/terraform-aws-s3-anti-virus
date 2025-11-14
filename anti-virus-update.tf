@@ -1,5 +1,5 @@
 #
-# Lambda Function: Anti-Virus Definitions
+# Anti-Virus Definitions
 #
 
 #
@@ -82,22 +82,6 @@ resource "aws_iam_role_policy" "main_update" {
 }
 
 #
-# CloudWatch Scheduled Event
-#
-
-/* resource "aws_cloudwatch_event_rule" "main_update" {
-  name                = var.name_update
-  description         = "scheduled trigger for ${var.name_update}"
-  schedule_expression = "rate(${var.av_update_minutes} minutes)"
-  tags                = var.tags
-}
-
-resource "aws_cloudwatch_event_target" "main_update" {
-  rule = aws_cloudwatch_event_rule.main_update.name
-  arn  = aws_lambda_function.main_update.arn
-} */
-
-#
 # CloudWatch Logs
 #
 
@@ -114,48 +98,3 @@ resource "aws_cloudwatch_log_group" "main_update" {
     var.tags
   )
 }
-
-#
-# Lambda Function
-#
-
-/* resource "aws_lambda_function" "main_update" {
-  depends_on = [aws_cloudwatch_log_group.main_update]
-
-  description = "Updates clamav definitions stored in s3."
-
-  s3_bucket = var.lambda_s3_bucket
-  s3_key    = local.lambda_package_key
-
-  function_name = var.name_update
-  role          = aws_iam_role.main_update.arn
-  handler       = "update.lambda_handler"
-  runtime       = "python3.11"
-  memory_size   = var.memory_size
-  timeout       = var.timeout_seconds
-
-  environment {
-    variables = {
-      AV_DEFINITION_S3_BUCKET = var.av_definition_s3_bucket
-      AV_DEFINITION_S3_PREFIX = var.av_definition_s3_prefix
-    }
-  }
-
-  tags = merge(
-    {
-      "Name" = var.name_update
-    },
-    var.tags
-  )
-}
-
-resource "aws_lambda_permission" "main_update" {
-  statement_id = var.name_update
-
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.main_update.function_name
-
-  principal  = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.main_update.arn
-}
- */
