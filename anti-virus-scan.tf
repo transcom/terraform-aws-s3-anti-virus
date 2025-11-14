@@ -1,5 +1,5 @@
 #
-# Lambda Function: Anti-Virus Scanning
+# Anti-Virus Scanning
 #
 
 #
@@ -134,20 +134,14 @@ data "aws_s3_bucket" "main_scan" {
   bucket = var.av_scan_buckets[count.index]
 }
 
-/* resource "aws_s3_bucket_notification" "main_scan" {
+resource "aws_s3_bucket_notification" "main_scan" {
   count  = length(var.av_scan_buckets)
   bucket = element(data.aws_s3_bucket.main_scan.*.id, count.index)
-
-  lambda_function {
-    id                  = element(data.aws_s3_bucket.main_scan.*.id, count.index)
-    lambda_function_arn = aws_lambda_function.main_scan.arn
-    events              = ["s3:ObjectCreated:*"]
-  }
 
   eventbridge = var.enable_eventbridge
 
 }
- */
+
 #
 # CloudWatch Logs
 #
@@ -165,57 +159,3 @@ resource "aws_cloudwatch_log_group" "main_scan" {
     var.tags
   )
 }
-
-/* #
-# Lambda Function
-#
-
-resource "aws_lambda_function" "main_scan" {
-  depends_on = [aws_cloudwatch_log_group.main_scan]
-
-  description = "Scans s3 objects with clamav for viruses."
-
-  s3_bucket = var.lambda_s3_bucket
-  s3_key    = local.lambda_package_key
-
-  function_name = var.name_scan
-  role          = aws_iam_role.main_scan.arn
-  handler       = "scan.lambda_handler"
-  runtime       = "python3.11"
-  memory_size   = var.memory_size
-  timeout       = var.timeout_seconds
-
-  environment {
-    variables = {
-      AV_DEFINITION_S3_BUCKET        = var.av_definition_s3_bucket
-      AV_DEFINITION_S3_PREFIX        = var.av_definition_s3_prefix
-      AV_SCAN_START_SNS_ARN          = var.av_scan_start_sns_arn
-      AV_STATUS_SNS_ARN              = var.av_status_sns_arn
-      AV_STATUS_SNS_PUBLISH_CLEAN    = var.av_status_sns_publish_clean
-      AV_STATUS_SNS_PUBLISH_INFECTED = var.av_status_sns_publish_infected
-      AV_DELETE_INFECTED_FILES       = var.av_delete_infected_files
-    }
-  }
-
-  tags = merge(
-    {
-      "Name" = var.name_scan
-    },
-    var.tags
-  )
-}
- */
-/* resource "aws_lambda_permission" "main_scan" {
-  count = length(var.av_scan_buckets)
-
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.main_scan.function_name
-
-  principal = "s3.amazonaws.com"
-
-  source_account = data.aws_caller_identity.current.account_id
-  source_arn     = element(data.aws_s3_bucket.main_scan.*.arn, count.index)
-
-  statement_id = replace("${var.name_scan}-${element(data.aws_s3_bucket.main_scan.*.id, count.index)}", ".", "-")
-}
- */
